@@ -33,3 +33,16 @@ function whoPlayFirst(){
 	fi
 }
 whoPlayFirst
+
+function getValidCell() {
+	read -p "Enter Number Between 1 to 9 :"  position
+	for((cell=0;cell<9;cell++))
+	do
+		if [ ${board[$cell]} -eq $position ]
+		then
+			board[cell]=$player
+			displayBoard
+		fi
+	done
+}
+getValidCell
