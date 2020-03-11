@@ -59,8 +59,92 @@ function rowColumnDiagonalWin() {
    done
 }
 
+function computerRowWin(){
+	local symbol=$1
+	for((i=0;i<9;i=i+3))
+	do
+		if [[ ${board[$i]}==$1 && ${board[$i+1]}==$1 && ${board[$i+2]}==$((i+3)) ]] 
+		then
+			board[$i+2]=$computer
+			displayBoard
+			exit
+		elif [[ ${board[$i]} == $1 && ${board[$i+2]} == $1 && ${board[$i+1]}==$((i+2)) ]]
+		then
+			board[$i+1]=$computer
+			displayBoard
+			exit
+		elif [[ ${board[$i+1]} == $1 &&  ${board[$i+3]} == $1 && ${board[$i]} == $((i+1)) ]]
+	   	then
+	      	board[$i]=$computer
+	      	displayBoard
+		exit
+	   	fi 
+	done
+}
+
+function computerColumnWin(){
+	local symbol=$1
+	for((i=0;i<9;i=i+1))
+  	do
+        	if [[ ${board[$i]}==$1 && ${board[$i+3]}==$1 && ${board[$i+6]}==$((i+7)) ]] 
+        	then
+         		board[$i+6]=$computer
+         		displayBoard
+         		exit
+       		elif [[ ${board[$i]} == $1 && ${board[$i+6]} == $1 && ${board[$i+3]}==$((i+4)) ]]
+       		then
+         		board[$i+3]=$computer
+         		displayBoard
+         		exit
+       		elif [[ ${board[$i+6]} == $1 && ${board[$i+3]} == $1 && ${board[$i]} == $((i+1)) ]]
+       		then
+        		board[$i]=$computer
+         		displayBoard
+        	 	exit
+      		fi 
+     done
+}
+
+function computerDiagonalWin(){
+	local symbol=$1
+	i=0
+	if [[ ${board[$i]}==$1 && ${board[$i+4]}==$1 && ${board[$i+8]}==$((i+9)) ]]
+	then
+		board[$i+8]=$computer
+		displayBoard
+		exit
+	elif [[ ${board[$i+4]}==$1 && ${board[$i+8]}==$1 && ${board[$i]}==$((i+1)) ]]
+	then
+		board[$i]=$computer
+		displayBoard
+		exit
+	elif [[ ${board[$i]}==$1 && ${board[$i+8]}==$1 && ${board[$i+4]}==$((i+5)) ]]
+	then
+		board[$i+4]=$computer
+		displayBoard
+		exit
+	fi
+	if [[ ${board[$i+2]}==$1 && ${board[$i+4]}==$1 && ${board[$i+6]}==$((i+7)) ]]
+	then
+		board[$i+6]=$computer
+		displayBoard
+		exit
+	elif [[ ${board[$i+2]}==$1 && ${board[$i+6]}==$1 && ${board[$i+4]}==$((i+5)) ]]
+	then
+		board[$i+4]=$computer
+		displayBoard
+		exit
+	elif [[ ${board[$i+4]}==$1 && ${board[$i+6]}==$1 && ${board[$i+2]}==$((i+3)) ]]
+	then
+		board[$i+2]=$computer
+		displayBoard
+		exit
+	fi
+}
+
+
 function userPlay(){
-	if [[ $count -ne $MAXCELL ]]
+	if [[ $count -lt $MAXCELL ]]
 	then
 		read -p "Enter Number Between 1 to 9:" position
 		if [[ ${board[$position-1]} -eq $position ]]
@@ -81,8 +165,11 @@ function userPlay(){
 }
 
 function computerPlay(){
-	if [[ $count -ne $MAXCELL ]]
+	if [[ $count -lt $MAXCELL ]]
 	then
+		computerRowWin $computer
+		computerColumnWin $computer
+		computerDiagonalWin $computer
 		randomVariable=$((RANDOM%9+1))
 		echo "Random Number From Computer :$randomVariable"
 		if [[ ${board[randomVariable-1]} -eq $randomVariable ]]
