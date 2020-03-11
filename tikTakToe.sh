@@ -171,6 +171,17 @@ function checkCenter(){
 	fi
 }
 
+function checkSides() {
+	for((i=0;i<8;i=i+2))
+	do
+		if [[ ${board[$i]} -eq $((i+1)) ]]
+		then
+			board[$i]=$computer
+			checkConditions
+		fi
+	done
+}
+
 function checkConditions(){
 	displayBoard
 	flag=1
@@ -193,7 +204,7 @@ function userPlay(){
 		fi
 		computerPlay
 	else
-		echo "Game tie"
+		echo "Game tie !!"
 		exit
 	fi
 }
@@ -202,6 +213,7 @@ function computerPlay(){
 	flag=0
 	if [[ $count -lt $MAX_CELL ]]
 	then
+		echo "computer play" 
 		computerWinCondition $computer 
 		computerWinCondition $user 
 		if [ $flag -eq 0 ]
@@ -212,10 +224,14 @@ function computerPlay(){
 		then
 			checkCenter
 		fi
+		if [ $flag -eq 0 ]
+		then
+			checkSides
+		fi
 		rowColumnDiagonalWin
 		userPlay
 	else
-		echo "Game tie"
+		echo "Game tie !!"
 		exit
 	fi
 }
