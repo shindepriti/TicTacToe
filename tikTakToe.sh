@@ -23,3 +23,13 @@ function assignSymbol(){
 	fi
 }
 assignSymbol
+
+function whoPlayFirst(){
+	if [ $((RANDOM%2)) -eq 1 ]
+	then
+		echo "player $player Play first"
+	else
+		echo "player $player play first" 	
+	fi
+}
+whoPlayFirst
