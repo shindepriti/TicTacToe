@@ -151,6 +151,23 @@ function diagonalWinBlock(){
    	fi
 }
 
+function checkCorner(){
+	for((i=0;i<9;i=i+6))
+	do
+		if [[ ${board[$i+1]}==$((i+1)) ]]
+		then
+			board[$i+1]=$computer
+			computerCondition
+			break
+		elif [[ ${board[$i+2]}==$((i+3)) ]]
+		then
+			board[$i+2]=$computer
+			computerCondition
+			break
+		fi
+	done
+}
+
 function userPlay(){
 	read -p "Enter Number Between 1 to 9:" position
 	if [[ ${board[$position-1]} -eq $position ]]
@@ -170,6 +187,7 @@ function computerPlay(){
 	flag=0
 	computerWinCondition $computer
 	computerWinCondition $user
+	checkCorner
 	if [[ $flag -eq 0 ]]
 	then
 		randomVariable=$((RANDOM%9+1))
@@ -188,7 +206,7 @@ function computerPlay(){
 	userPlay
 }
 
-function checkValidCell(){
+function playGame(){
 	displayBoard
 	assignSymbol
 	while  [[ $count -lt $MAXCELL ]]
@@ -200,4 +218,4 @@ function checkValidCell(){
 		echo "Tie game"
 	fi
 }
-checkValidCell
+playGame
