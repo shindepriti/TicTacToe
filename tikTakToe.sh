@@ -42,19 +42,19 @@ function switchPlayer(){
 
 #function to check winning condition for Row Column and Diagonal
 function rowColumnDiagonalWin() {
-   k=0
-   j=0
-   for((i=0;i<9;i=i+3))
+   diagonal=0
+   column=0
+   for((row=0;row<9;row=row+3))
    do
-      if [[ ${board[$i]} == ${board[$i+1]} && ${board[$i+1]} == ${board[$i+2]} ]] ||
-         [[ ${board[$j]} == ${board[$j+3]} && ${board[$j+3]} ==  ${board[$j+6]} ]] || 
-         [[ ${board[$k]} == ${board[$k+4]} && ${board[$k+4]} == ${board[$k+8]} ]] ||
-         [[ ${board[$k+2]} == ${board[$k+4]} && ${board[$k+4]} == ${board[$k+6]} ]]
+      if [[ ${board[$row]} == ${board[$row+1]} && ${board[$row+1]} == ${board[$row+2]} ]] ||
+         [[ ${board[$column]} == ${board[$column+3]} && ${board[$column+3]} ==  ${board[$column+6]} ]] || 
+         [[ ${board[$diagonal]} == ${board[$diagonal+4]} && ${board[$diagonal+4]} == ${board[$diagonal+8]} ]] ||
+         [[ ${board[$diagonal+2]} == ${board[$diagonal+4]} && ${board[$diagonal+4]} == ${board[$diagonal+6]} ]]
       then  
          echo "$player Win"
          exit
       fi
-      j=$((j+1))
+      column=$((column+1))
    done
 }
 
@@ -77,19 +77,19 @@ function winBlockCondition(){
 
 function computerColumnWin(){
 	local symbol=$1
-	for((i=0;i<9;i=i+1))
+	for((column=0;column<9;column=column+1))
 	do
-		if [[ ${board[$i]} == $symbol && ${board[$i+3]} == $symbol && ${board[$i+6]} == $((i+7)) ]]
+		if [[ ${board[$column]} == $symbol && ${board[$column+3]} == $symbol && ${board[$column+6]} == $((column+7)) ]]
 		then
-			board[$i+6]=$computer
+			board[$column+6]=$computer
 			checkConditions
-		elif [[ ${board[$i]} == $symbol && ${board[$i+6]} == $symbol && ${board[$i+3]} == $((i+4)) ]]
+		elif [[ ${board[$column]} == $symbol && ${board[$column+6]} == $symbol && ${board[$column+3]} == $((column+4)) ]]
 		then
-			board[$i+3]=$computer
+			board[$column+3]=$computer
 			checkConditions
-		elif [[ ${board[$i+3]} == $symbol && ${board[$i+6]} == $symbol && ${board[$i]} == $((i+1)) ]]
+		elif [[ ${board[$column+3]} == $symbol && ${board[$column+6]} == $symbol && ${board[$column]} == $((column+1)) ]]
 		then
-			board[$i]=$computer
+			board[$column]=$computer
 			checkConditions
 		fi
 	done
@@ -97,19 +97,19 @@ function computerColumnWin(){
 
 function computerRowWin(){
 	local symbol=$1
-	for((i=0;i<9;i=i+3))
+	for((row=0;row<9;row=row+3))
 	do
-   		if [[ ${board[$i]} == $symbol && ${board[$i+1]} == $symbol && ${board[$i+2]} == $((i+3)) ]]
+   		if [[ ${board[$row]} == $symbol && ${board[$row+1]} == $symbol && ${board[$row+2]} == $((row+3)) ]]
    		then
-			board[$i+2]=$computer
+			board[$row+2]=$computer
 			checkConditions
-   		elif [[ ${board[$i]} == $symbol && ${board[$i+2]} == $symbol && ${board[$i+1]} == $((i+2)) ]]
+   		elif [[ ${board[$row]} == $symbol && ${board[$row+2]} == $symbol && ${board[$row+1]} == $((row+2)) ]]
 			then
-        		board[$i+1]=$computer
+        		board[$row+1]=$computer
 			checkConditions
-   		elif [[ ${board[$i+1]} == $symbol && ${board[$i+2]} == $symbol && ${board[$i]} == $((i+1)) ]]
+   		elif [[ ${board[$row+1]} == $symbol && ${board[$row+2]} == $symbol && ${board[$row]} == $((row+1)) ]]
    		then
-        		board[$i]=$computer
+        		board[$row]=$computer
         		checkConditions
    		fi
 	done
@@ -117,30 +117,30 @@ function computerRowWin(){
 
 function computerDiagonalWin(){
 	local symbol=$1
-	i=0
-	if [[ ${board[$i+2]} == $symbol && ${board[$i+4]} == $symbol && ${board[$i+6]} == $((i+7)) ]]
+	diagonal=0
+	if [[ ${board[$diagonal+2]} == $symbol && ${board[$diagonal+4]} == $symbol && ${board[$diagonal+6]} == $((diagonal+7)) ]]
 	then
-     		board[$i+6]=$computer
+     		board[$diagonal+6]=$computer
 		checkConditions
-   	elif [[ ${board[$i+2]} == $symbol && ${board[$i+6]} == $symbol && ${board[$i+4]} == $((i+5)) ]]
+   	elif [[ ${board[$diagonal+2]} == $symbol && ${board[$diagonal+6]} == $symbol && ${board[$diagonal+4]} == $((diagonal+5)) ]]
    	then
-		board[$i+4]=$computer
+		board[$diagonal+4]=$computer
 		checkConditions
-   	elif [[ ${board[$i+4]} == $symbol && ${board[$i+6]} == $symbol && ${board[$i+2]} == $((i+3)) ]]
+   	elif [[ ${board[$diagonal+4]} == $symbol && ${board[$diagonal+6]} == $symbol && ${board[$diagonal+2]} == $((diagonal+3)) ]]
    	then
-		board[$i+2]=$computer
+		board[$diagonal+2]=$computer
 		checkConditions
-   	elif [[ ${board[$i]} == $symbol && ${board[$i+4]} == $symbol && ${board[$i+8]} == $((i+9)) ]]
+   	elif [[ ${board[$diagonal]} == $symbol && ${board[$diagonal+4]} == $symbol && ${board[$diagonal+8]} == $((diagonal+9)) ]]
    	then
-		board[$i+8]=$computer
+		board[$diagonal+8]=$computer
 		checkConditions
-   	elif [[ ${board[$i]} == $symbol && ${board[$i+8]} == $symbol && ${board[$i+4]} == $((i+5)) ]]
+   	elif [[ ${board[$diagonal]} == $symbol && ${board[$diagonal+8]} == $symbol && ${board[$diagonal+4]} == $((diagonal+5)) ]]
    	then
-		board[$i+4]=$computer
+		board[$diagonal+4]=$computer
 		checkConditions
-   	elif [[ ${board[$i+4]} == $symbol && ${board[$i+8]} == $symbol && ${board[$i]} == $((i+1)) ]]
+   	elif [[ ${board[$diagonal+4]} == $symbol && ${board[$diagonal+8]} == $symbol && ${board[$diagonal]} == $((diagonal+1)) ]]
    	then
-		board[$i]=$computer
+		board[$diagonal]=$computer
 		checkConditions
    	fi
 }
