@@ -59,7 +59,7 @@ function rowColumnDiagonalWin() {
 }
 
 
-function computerWinCondition(){
+function winBlockCondition(){
 	local symbol=$1
 	if [ $flag -eq 0 ]
 	then 
@@ -104,7 +104,7 @@ function computerRowWin(){
 			board[$i+2]=$computer
 			checkConditions
    		elif [[ ${board[$i]} == $symbol && ${board[$i+2]} == $symbol && ${board[$i+1]} == $((i+2)) ]]
-		then
+			then
         		board[$i+1]=$computer
 			checkConditions
    		elif [[ ${board[$i+1]} == $symbol && ${board[$i+2]} == $symbol && ${board[$i]} == $((i+1)) ]]
@@ -214,8 +214,8 @@ function computerPlay(){
 	if [[ $count -lt $MAX_CELL ]]
 	then
 		echo "computer play" 
-		computerWinCondition $computer 
-		computerWinCondition $user 
+		winBlockCondition $computer 
+		winBlockCondition $user 
 		if [ $flag -eq 0 ]
 		then
 			checkCorner
