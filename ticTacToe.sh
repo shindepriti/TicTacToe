@@ -1,4 +1,5 @@
 #!/bin/bash -x
+echo "Welcome to Tic tac toe game"
 
 #variable
 player="O"
@@ -9,12 +10,12 @@ move=0
 turn=0
 winFlag=0
 block=0
-echo "Welcome to Tic tac toe"
 
 declare -A board
-read -p "Enter Row Do You Want " ROW
-read -p "Enter Column Do you Want " COLUMN
+read -p "Enter Row Do You Want : " ROW
+read -p "Enter Column Do you Want :" COLUMN
 matrix=$(($ROW*$COLUMN))
+
 function initializeBoard(){
 	for((row=0;row<$ROW;row++))
 	do
@@ -24,7 +25,6 @@ function initializeBoard(){
 		done
 	done
 }
-
 
 function displayBoard(){
 	echo "YOU:"$player
@@ -67,8 +67,8 @@ function displayWinner(){
 	local sign=$1
 	if [ $winFlag -eq 1 ]
 	then
-		echo  $sign "winner"
 		displayBoard
+		echo  $sign "winner"
 		exit
 	fi
 }
@@ -84,7 +84,6 @@ function playMove(){
 		madeMoveFlag=1
 	fi
 }
-
 
 function checkWinner(){
 	local sign=$1
@@ -125,7 +124,6 @@ function checkWinner(){
 	done
 }
 
-
 #to play first turn
 function playFirst(){
 	if [[ $player == "X" ]]
@@ -144,8 +142,8 @@ function playerMove(){
 	madeMoveFlag=0
 	while (( $madeMoveFlag == 0 ))
 	do
-		read -p "provide row no like 0,1,2,3,4,5,6,7,8,9" row
-		read -p "provide col no like 0,1,2,3,4,5,6,7,8,9" column
+		read -p "provide row no like 0,1,2,3,4,5,6,7,8,9 :" row 
+		read -p "provide column no like 0,1,2,3,4,5,6,7,8,9: "  column
 		#check for valid condiation
 		if (( $row > $ROW && $column > $COLUMN ))
 		then
@@ -220,7 +218,6 @@ function checkCorner()
 			break 
 		fi 
 	done
-
 }
 
 #check for side move
@@ -232,22 +229,18 @@ function checkSide()
 		columns=1;	
 		if [ $madeMoveFlag -eq 0 ]
 		then
-			#echo "one two " $rows $columns
 			playMove $rows $columns $computer
 		fi
 
 		if [ $madeMoveFlag -eq 0 ]
 		then
-			#echo "swap " $columns $rows
 			playMove  $columns $rows $computer
 		fi
 	done
 }
-
 initializeBoard
 toss
 playFirst
-
 
 #start game until all cell is occupied
 function main(){
